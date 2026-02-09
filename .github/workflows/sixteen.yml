@@ -55,38 +55,11 @@ jobs:
           chmod +x ./sixteen.sh
           bash ./sixteen.sh ${{ github.event.inputs.STOCK_DEVICE }} ${{ github.event.inputs.TARGET_DEVICE }} ${{ github.event.inputs.TARGET_DEVICE_CSC }} ${{ github.event.inputs.TARGET_DEVICE_IMEI }} ${{ github.event.inputs.OUTPUT_FILESYSTEM }}
 
-      - name: Splitting files before uploading if need.
+      - name: Uploading all files to GoFile.
         run: |
-          GIT_SUPPORT_SIZE=2147483647
-          OUT_DIR="./OUT"
-          echo "BUILD_TIME=$(date '+%Y-%m-%d %I:%M:%S %p UTC')" >> $GITHUB_ENV
-          echo "--- Checking for large files in $OUT_DIR ---"
-
-          for file in "$OUT_DIR"/*; do
-            [ -f "$file" ] || continue
-            FILE_SIZE=$(stat -c%s "$file")
-            if [ "$FILE_SIZE" -gt "$GIT_SUPPORT_SIZE" ]; then
-              echo "📦 Splitting: $file (Size: $FILE_SIZE bytes)"
-              split -b "$GIT_SUPPORT_SIZE" -d -a 3 "$file" "$file.part"
-              rm -f "$file"
-            fi
-          done
-
-      - name: Uploading all files to GitHub Release.
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: "build-${{ github.run_id }}"
-          name: "${{ github.event.inputs.TARGET_DEVICE }} On ${{ github.event.inputs.STOCK_DEVICE }} QuantumROM Build: ${{ github.run_id }}"
-          body: |
-            ***Build Information***
-            - ➡️ Build For: ${{ github.event.inputs.STOCK_DEVICE }}
-            - ➡️ Build From: ${{ GITHUB.EVENT.INPUTS.TARGET_DEVICE }}
-            - ⏰️ Build Time: ${{ env.BUILD_TIME }}
-          files: |
-            ./OUT/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
+          chmod +x ./upload.sh 
+          bash ./upload.sh OUT/system.img
+          bash ./upload.sh OUT/product.img
       - name: Cleaning everything.
         run: |
           rm -rf *
