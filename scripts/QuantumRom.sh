@@ -813,10 +813,6 @@ APPLY_FLOATING_FEATURE() {
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_SYSTEMUI_SUPPORT_BRIEF_NOTIFICATION" "TRUE"
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_SYSTEMUI_CONFIG_EDGELIGHTING_FRAME_EFFECT" "frame_effect"
 
-    #========== SMARTMANAGER ==========#
-    #UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_SMARTMANAGER_CONFIG_PACKAGE_NAME" "com.samsung.android.sm_cn"
-    #UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_SECURITY_CONFIG_DEVICEMONITOR_PACKAGE_NAME" "com.samsung.android.sm.devicesecurity.tcm"
-
     #========== SCREEN RECORDER ==========#
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_FRAMEWORK_SUPPORT_SCREEN_RECORDER" "TRUE"
 	
@@ -856,8 +852,6 @@ APPLY_FLOATING_FEATURE() {
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LAUNCHER_CONFIG_ANIMATION_TYPE" "$(awk -F'[<>]' '$2 == "SEC_FLOATING_FEATURE_LAUNCHER_CONFIG_ANIMATION_TYPE" {print $3}' "$STOCK_FLOATING_FEATURE")"
 
     #========== DISPLAY ==========#
-    UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LCD_CONFIG_AOD_FULLSCREEN" "1"
-    UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" "$(awk -F'[<>]' '$2 == "SEC_FLOATING_FEATURE_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS" {print $3}' "$STOCK_FLOATING_FEATURE")"
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LCD_CONFIG_DEFAULT_SCREEN_MODE" "$(awk -F'[<>]' '$2 == "SEC_FLOATING_FEATURE_LCD_CONFIG_DEFAULT_SCREEN_MODE" {print $3}' "$STOCK_FLOATING_FEATURE")"
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LCD_SUPPORT_NATURAL_SCREEN_MODE" "$(awk -F'[<>]' '$2 == "SEC_FLOATING_FEATURE_LCD_SUPPORT_NATURAL_SCREEN_MODE" {print $3}' "$STOCK_FLOATING_FEATURE")"
     UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_LCD_SUPPORT_SCREEN_MODE_TYPE" "$(awk -F'[<>]' '$2 == "SEC_FLOATING_FEATURE_LCD_SUPPORT_SCREEN_MODE_TYPE" {print $3}' "$STOCK_FLOATING_FEATURE")"
@@ -1084,19 +1078,6 @@ APPLY_FEATURES() {
     BUILD_PROP "$EXTRACTED_FIRM_DIR" "debug.hwui.renderer" "skiavk"
 	BUILD_PROP "$EXTRACTED_FIRM_DIR" "ro.telephony.sim_slots.count" "2"
     BUILD_PROP "$EXTRACTED_FIRM_DIR" "ro.surface_flinger.protected_contents" "true"
-
-	echo " Adding China smart manager."
-	rm -rf "$EXTRACTED_FIRM_DIR/system/system/priv-app/AppLock"
-    rm -rf "$EXTRACTED_FIRM_DIR/system/system/priv-app/Firewall"
-    rm -rf "$EXTRACTED_FIRM_DIR/system/system/priv-app/SmartManager_v5"
-    rm -rf "$EXTRACTED_FIRM_DIR/system/system/priv-app/SmartManagerCN"
-	cp -rfa "$(pwd)/QuantumROM/Mods/SMART_MANAGER_CN/." "$EXTRACTED_FIRM_DIR/"
-	UPDATE_FLOATING_FEATURE "SEC_FLOATING_FEATURE_SMARTMANAGER_CONFIG_PACKAGE_NAME" "com.samsung.android.sm_cn"
-
-	echo " Adding full oneui and important apps."
-	rm -rf "$EXTRACTED_FIRM_DIR/system/system/app/ClockPackage"
-	rm -rf "$EXTRACTED_FIRM_DIR/system/system/priv-app"/PhotoEditor_*
-	cp -rfa "$(pwd)/QuantumROM/Mods/Apps/." "$EXTRACTED_FIRM_DIR/"
 
 	# Remove power and data usage permissions for certain apps when Power Saver and Data Saver are always enabled.
 	sed -i '/^[[:space:]]*<allow-in-power-save/d; /^[[:space:]]*<allow-in-data-usage-save/d' "$EXTRACTED_FIRM_DIR/product/etc/sysconfig/"*.xml "$EXTRACTED_FIRM_DIR/system/system/etc/sysconfig/"*.xml
