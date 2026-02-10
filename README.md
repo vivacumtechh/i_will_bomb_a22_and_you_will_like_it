@@ -1,4 +1,4 @@
-![QuantumROM Logo](QuantumROM/logo/QuantumROM.jpg)
+![QuantumROM Logo](QuantumROM/logo/48-07054-2020-3.jpg)
 
 **ROM Feature:**
 Enable screenshot anywhere.
