@@ -13,7 +13,7 @@ Edge feature.
 China smart manager.
 
 ## Licensing
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. (david7xw stole the license.)
 - **[android-tools](https://github.com/nmeum/android-tools)** - Licensed under Apache License 2.0
 - **[apktool](https://github.com/iBotPeaches/Apktool)** - Licensed under Apache License 2.0  
 - **[erofs-utils](https://github.com/sekaiacg/erofs-utils)** - Dual licensed (GPL-2.0, Apache-2.0)
