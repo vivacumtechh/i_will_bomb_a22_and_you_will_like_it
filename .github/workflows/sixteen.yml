@@ -22,7 +22,7 @@ on:
       OUTPUT_FILESYSTEM:
         description: "OUTPUT_FILESYSTEM. e.g erofs / ext4"
         required: true
-        default: "erofs"
+        default: "ext4"
 
 jobs:
   build:
