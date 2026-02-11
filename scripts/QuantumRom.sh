@@ -233,6 +233,13 @@ EXTRACT_FIRMWARE_IMG() {
                 echo "Extracting $imgfile in $FIRM_DIR/$partition"
                 $(pwd)/bin/erofs-utils/extract.erofs -i "$imgfile" -x -f -o "$FIRM_DIR" >/dev/null 2>&1
                 ;;
+			F2FS)
+                echo ""
+                IMG_SIZE=$(stat -c%s -- "$imgfile")
+                echo "$imgfile Detected $fstype. Size: $IMG_SIZE bytes."
+                echo "Extracting $imgfile in $FIRM_DIR/$partition"
+                $(pwd)/bin/f2fs-utils/mkf2fsuserimg.sh -i "$imgfile" -x -f -o "$FIRM_DIR" >/dev/null 2>&1
+                ;;
             *)
                 echo "[$imgfile] Unknown filesystem type ($fstype), skipping"
                 return 1
