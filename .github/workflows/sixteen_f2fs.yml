@@ -1,0 +1,77 @@
+--- START OF FILE sixteen.yml.txt ---
+
+name: a22 bomb Tools
+
+on:
+  workflow_dispatch:
+    inputs:
+      STOCK_DEVICE:
+        description: "STOCK_DEVICE_MODEL."
+        required: true
+        default: "SM-A225F"
+      TARGET_DEVICE:
+        description: "TARGET_DEVICE_MODEL."
+        required: true
+        default: "SM-A346E"
+      TARGET_DEVICE_CSC:
+        description: "TARGET_DEVICE_CSC."
+        required: true
+        default: "BKD"
+      TARGET_DEVICE_IMEI:
+        description: "TARGET_DEVICE_IMEI."
+        required: true
+        default: "353435774197736"
+      OUTPUT_FILESYSTEM:
+        description: "OUTPUT_FILESYSTEM. e.g erofs / ext4 / f2fs"
+        required: true
+        default: "ext4"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cleaning junk files
+        uses: rokibhasansagar/slimhub_actions@v25.42.5
+
+      - name: Doing war crimes.
+        run: |
+          # Added f2fs-tools, libf2fs-dev, libf2fs-format-dev, uuid-dev, libselinux1-dev, and liblz4-dev
+          sudo apt update
+          sudo apt install -y f2fs-tools libf2fs-dev libf2fs-format-dev uuid-dev libselinux1-dev liblz4-dev \
+          p7zip-full lz4 android-sdk-libsparse-utils python3 python3-pip zipalign unzip e2fsprogs openjdk-17-jdk >/dev/null 2>&1
+          
+          pip3 install liblp tgcrypto pyrogram >/dev/null 2>&1
+          pip3 install git+https://github.com/martinetd/samloader.git >/dev/null 2>&1
+          
+          # Binary permissions
+          chmod +x "$(pwd)/bin/ext4/make_ext4fs"
+          chmod +x "$(pwd)/bin/erofs-utils/extract.erofs"
+          chmod +x "$(pwd)/bin/erofs-utils/mkfs.erofs"
+          # Optional: If you have custom f2fs binaries in your bin folder, uncomment the line below
+          # chmod +x "$(pwd)/bin/f2fs/sload.f2fs" "$(pwd)/bin/f2fs/mkfs.f2fs"
+
+      - name: Executing corruption.
+        run: |
+          chmod +x ./scripts/setup_directories.sh
+          bash ./scripts/setup_directories.sh FIRMWARE WORK OUT
+
+      - name: Make Bomb.
+        run: |
+          chmod +x ./sixteen.sh
+          bash ./sixteen.sh ${{ github.event.inputs.STOCK_DEVICE }} ${{ github.event.inputs.TARGET_DEVICE }} ${{ github.event.inputs.TARGET_DEVICE_CSC }} ${{ github.event.inputs.TARGET_DEVICE_IMEI }} ${{ github.event.inputs.OUTPUT_FILESYSTEM }}
+
+      - name: Uploading all files to GoFile.
+        run: |
+          chmod +x ./upload.sh 
+          bash ./upload.sh OUT/system.img
+          bash ./upload.sh OUT/product.img
+          # Added upload for userdata/f2fs images if generated
+          [ -f OUT/userdata.img ] && bash ./upload.sh OUT/userdata.img || true
+
+      - name: Cleaning everything.
+        run: |
+          rm -rf *
