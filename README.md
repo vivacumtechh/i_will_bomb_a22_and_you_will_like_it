@@ -1,16 +1,7 @@
 ![QuantumROM Logo](QuantumROM/logo/48-07054-2020-3.jpg)
 
 **ROM Feature:**
-Enable screenshot anywhere.
-Heavy debloated.
-Secure folder support.
-Full oneui apps.
-Important apps.
-Floating feature.
-Screen Recorder.
-AI enable.
-Edge feature.
-China smart manager.
+fymk
 
 ## Licensing
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. (david7xw stole the license.)
